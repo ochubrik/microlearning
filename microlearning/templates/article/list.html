@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}DEFAULT TITLE{% endblock %}
+
+{%  block content %}
+    <h1>My Articles</h1>
+    {% for article in articles %}
+        <h2 class="text-info">
+            <a href="{{article.get_absolute_url}}">{{article.title}} </a>
+        </h2>
+        <h5>
+            Published {{article.publish}} by {{article.author}}
+        </h5>
+        <h5>
+            {{article.type}}
+        </h5>
+        <p>
+            {{article.body|truncatewords:30|linebreaks}}
+        </p>
+    {% endfor %}
+{%  endblock %}
