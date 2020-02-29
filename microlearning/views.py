@@ -1,20 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 
 from . import models
+from.models import Article
 
 
-# Create your views here.
-
-# def mainpage(request):
-#     return render(request,
-#                   'article/mainpage.html')
+def article_index(request):
+    return render(request, 'article/index.html')
 
 
-def all_articles(request):
-    article_list = models.Article.objects.all()
-    return render(request,
-                  'article/list.html',
-                  {"articles": article_list})
+def article_list(request):
+    return render(request, 'article/list.html', {
+        'articles': Article.objects.all()})
 
 
 def article_details(request, year, month, day, slug):

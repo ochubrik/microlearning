@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+import uuid
 from django.contrib.auth.models import User
 from django.urls import reverse
 
@@ -17,7 +18,7 @@ class Article(models.Model):
         ('Family Medicine', 'Family Medicine'),
         ('Gastroenterology', 'Gastroenterology'),
         ('General Surgery', 'General Surgery'),
-        ('Hematology-Oncology', 'Oncology'),#ссылка повторяется ниже
+        ('Hematology-Oncology', 'Oncology'),  # ссылка повторяется ниже
         ('HIV/AIDS', 'HIV/AIDS'),
         ('Hospital Medicine', 'Hospital Medicine'),
         ('Infectious Diseases', 'Infectious Diseases'),
@@ -25,7 +26,7 @@ class Article(models.Model):
         ('Nephrology', 'Nephrology'),
         ('Neurology', 'Neurology'),
         ("Ob/Gyn & Women's Health", "Ob/Gyn & Women's Health"),
-        ('Oncology', 'Oncology'),#повторяется ссылка
+        ('Oncology', 'Oncology'),  # повторяется ссылка
         ('Ophthalmology', 'Ophthalmology'),
         ('Orthopedics', 'Orthopedics'),
         ('Pathology & Lab Medicine', 'Pathology & Lab Medicine'),
@@ -39,12 +40,10 @@ class Article(models.Model):
         ('Transplantation', 'Transplantation'),
         ('Urology', 'Urology'),
     )
-
     STATUS_TYPES = (
         ('new', 'New'),
         ('finished', 'Finished'),
     )
-
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250,
                             unique_for_date='publish')

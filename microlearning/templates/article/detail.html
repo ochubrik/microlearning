@@ -3,12 +3,12 @@
 {% block title %}{{article.title}}{% endblock %}
 
 {% block content %}
-<a href="{% url "microlearning:all_articles" %}">All articles</a>
-<h1 class="text-info">{{article.title}}</h1>
-        <p>
-            Published {{article.publish}} by {{article.author}}
-        </p>
-        <p>
-            {{article.body|linebreaks}}
-        </p>
+    <a href="{% url "microlearning:article_list" %}">All articles</a>
+    <h1 class="text-info">{{article.title}}</h1>
+    <p>
+        Published {{article.publish}} by {{article.author}}
+    </p>
+    <p>
+        {{article.body|linebreaks}}
+    </p>
 {% endblock %}

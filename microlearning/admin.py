@@ -3,9 +3,14 @@ from . import models
 
 
 # Register your models here.
+# class ArticleInstanceInline(admin.TabularInline):
+#     model = 'ArticleInstance'
+
+
 @admin.register(models.Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'type', 'status', 'publish')
-    list_filter = ('status', 'type', 'publish')
+    list_display = ('title', 'slug', 'type', 'publish', 'status')
+    # inlines = [ArticleInstanceInline]
+    list_filter = ('type', 'publish', 'status')
     date_hierarchy = 'publish'
-    ordering = ('status', 'publish')
+    ordering = ('publish', 'status')

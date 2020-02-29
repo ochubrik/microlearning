@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('grappelli/', include('grappelli.urls')),
     path('admin/', admin.site.urls),
     path('microlearning/', include('microlearning.urls', namespace='microlearning')),
-    path('', include('registration.urls', namespace='registration')),
+    path('', RedirectView.as_view(url='/microlearning', permanent=True)),
+    path('accounts/', include('registration.urls', namespace='registration')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]

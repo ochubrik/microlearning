@@ -3,9 +3,9 @@ from . import views
 
 app_name = 'microlearning'
 urlpatterns = [
-    # path('', views.mainpage, name='mainpage'),
-    path('', views.all_articles, name='all_articles'),
+    path('', views.article_index, name='article_index'),
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/',
          views.article_details,
          name='article_details'),
+    path('list_articles/', views.article_list, name='article_list'),
 ]

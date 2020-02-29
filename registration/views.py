@@ -3,4 +3,4 @@ from django.shortcuts import render
 # Create your views here.
 def mainpage(request):
     return render(request,
-                  'mainpage/mainpage.html')
+                  'mainpage/login.html')
