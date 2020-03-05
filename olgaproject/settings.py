@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'microlearning.apps.MicrolearningConfig',
+    'registration.apps.RegistrationConfig',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,8 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'microlearning.apps.MicrolearningConfig',
-    'registration.apps.RegistrationConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = 'logout/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
