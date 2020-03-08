@@ -5,6 +5,16 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    subscribed_category = models.CharField(max_length=50, blank=True)
+
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(type='Family Medicine', publish__year=2020)
+
+
 class Article(models.Model):
     ARTICLE_TYPES = (
         ('Allergy & Immunology', 'Allergy & Clinical Immunology'),
@@ -57,6 +67,7 @@ class Article(models.Model):
                               default='new')
     author = models.CharField(max_length=250)
     objects = models.Manager()
+    published = PublishedManager()
 
     # def __str__(self):
     #     return self.title
