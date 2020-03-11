@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from . import forms
+from microlearning import models
 
 
 def user_login(request):
@@ -25,3 +26,4 @@ def user_login(request):
     else:
         form = forms.LoginForm()
     return render(request, 'login.html', {'form': form})
+

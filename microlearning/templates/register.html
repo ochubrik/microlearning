@@ -1,9 +1,11 @@
 {% extends "baseregistration.html" %}
-
+{% block title %}create {% endblock %}
 {% block content %}
+<p> create account: </p>
+
 <form action="." method="post">
     {{ form.as_p }}
-    <p><input type="submit" value="Send e-mail"></p>
     {% csrf_token %}
+<p><input type="submit" value="create"></p>
 </form>
 {% endblock %}
