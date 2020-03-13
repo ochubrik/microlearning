@@ -24,7 +24,7 @@
     <h3>From medscape:</h3>
     {% for article in articles_from_med %}
         <h2 class="text-info">
-            <a href="https://www.medscape.com/{{ article.url }}">{{ article.title }} </a>
+            <a href="{% url "microlearning:article_details_med" %}?url={{article.url}}">{{ article.title }} </a>
         </h2>
         <h5>
             Published by {{ article.author }}

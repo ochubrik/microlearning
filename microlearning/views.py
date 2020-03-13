@@ -13,7 +13,7 @@ def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
     if request.user.profile.subscribed_category:
-        from_med = scraper.MedscapeScraper().get_articles_by_slug(request.user.profile.subscribed_category)
+        from_med = scraper.MedscapeScraper().get_articles_by_category(request.user.profile.subscribed_category)
     else:
         from_med = []
 
@@ -23,6 +23,15 @@ def article_index(request):
                       'articles_from_med': from_med
                   })
 
+@login_required
+def article_details_med(request):
+    url = request.GET['url']
+    article = scraper.MedscapeScraper().get_article_by_url(url)
+
+    return render(request, 'article/detail_med.html',
+                  {
+                      'article': article,
+                  })
 
 @login_required
 class ArticleListView(LoginRequiredMixin, ListView):
