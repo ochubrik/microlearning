@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Home</h1>
+    <h1>Home</h1>
+    <p>Welcome to <em>Microlearning</em>.</p>
+    <h2>Dynamic content</h2>
 
-  <p>Welcome to <em>Microlearning</em>.</p>
-
-<h2>Dynamic content</h2>
-
-<!--    <a href="{% url "microlearning:article_list" %}">All articles</a>-->
+    <h3>From Database:</h3>
     {% for article in articles %}
         <h2 class="text-info">
             <a href="{{article.get_absolute_url}}">{{article.title}} </a>
@@ -21,6 +19,19 @@
         <p>
             {{article.body|truncatewords:30|linebreaks}}
         </p>
+    {% endfor %}
+
+    <h3>From medscape:</h3>
+    {% for article in articles_from_med %}
+        <h2 class="text-info">
+            <a href="https://www.medscape.com/{{ article.url }}">{{ article.title }} </a>
+        </h2>
+        <h5>
+            Published by {{ article.author }}
+        </h5>
+        <h5>
+            {{ article.teaser }}
+        </h5>
     {% endfor %}
 
 {% endblock %}

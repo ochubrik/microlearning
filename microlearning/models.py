@@ -36,43 +36,43 @@ def save_user_profile(sender, instance, **kwargs):
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(type='Family Medicine', publish__year=2020)
+        return super(PublishedManager, self).get_queryset().filter(type='familymedicine', publish__year=2020)
 
 
 class Article(models.Model):
+
     ARTICLE_TYPES = (
-        ('Allergy & Immunology', 'Allergy & Clinical Immunology'),
-        ('Anesthesiology', 'Anesthesiology'),
-        ('Business of Medicine', 'Business of Medicine'),
-        ('Cardiology', 'Cardiology'),
-        ('Critical Care', 'Critical Care'),
-        ('Dermatology', 'Dermatology'),
-        ('Diabetes & Endocrinology', 'Diabetes & Endocrinology'),
-        ('Emergency Medicine', 'Emergency Medicine'),
-        ('Family Medicine', 'Family Medicine'),
-        ('Gastroenterology', 'Gastroenterology'),
-        ('General Surgery', 'General Surgery'),
-        ('Hematology-Oncology', 'Oncology'),  # ссылка повторяется ниже
-        ('HIV/AIDS', 'HIV/AIDS'),
-        ('Hospital Medicine', 'Hospital Medicine'),
-        ('Infectious Diseases', 'Infectious Diseases'),
-        ('Internal Medicine', 'Internal Medicine'),
-        ('Nephrology', 'Nephrology'),
-        ('Neurology', 'Neurology'),
-        ("Ob/Gyn & Women's Health", "Ob/Gyn & Women's Health"),
-        ('Oncology', 'Oncology'),  # повторяется ссылка
-        ('Ophthalmology', 'Ophthalmology'),
-        ('Orthopedics', 'Orthopedics'),
-        ('Pathology & Lab Medicine', 'Pathology & Lab Medicine'),
-        ('Pediatrics', 'Pediatrics'),
-        ('Plastic Surgery', 'Plastic Surgery'),
-        ('Psychiatry', 'Psychiatry'),
-        ('Public Health', 'Public Health & Prevention'),
-        ('Pulmonary Medicine', 'Pulmonary Medicine'),
-        ('Radiology', 'Radiology'),
-        ('Rheumatology', 'Rheumatology'),
-        ('Transplantation', 'Transplantation'),
-        ('Urology', 'Urology'),
+        ('allergy-immunology', 'Allergy & Clinical Immunology'),
+        ('anesthesiology', 'Anesthesiology'),
+        ('businessmedicine', 'Business of Medicine'),
+        ('cardiology', 'Cardiology'),
+        ('criticalcare', 'Critical Care'),
+        ('dermatology', 'Dermatology'),
+        ('diabetes-endocrinology', 'Diabetes & Endocrinology'),
+        ('emergencymedicine', 'Emergency Medicine'),
+        ('familymedicine', 'Family Medicine'),
+        ('gastroenterology', 'Gastroenterology'),
+        ('generalsurgery', 'General Surgery'),
+        ('oncology', 'Oncology'),
+        ('hiv', 'HIV/AIDS'),
+        ('hospitalmedicine', 'Hospital Medicine'),
+        ('infectiousdiseases', 'Infectious Diseases'),
+        ('internalmedicine', 'Internal Medicine'),
+        ('nephrology', 'Nephrology'),
+        ('neurology', 'Neurology'),
+        ('womenshealth', "Ob/Gyn & Women's Health"),
+        ('ophthalmology', 'Ophthalmology'),
+        ('orthopedics', 'Orthopedics'),
+        ('pathology', 'Pathology & Lab Medicine'),
+        ('pediatrics', 'Pediatrics'),
+        ('plastic-surgery', 'Plastic Surgery'),
+        ('psychiatry', 'Psychiatry'),
+        ('publichealth', 'Public Health & Prevention'),
+        ('pulmonarymedicine', 'Pulmonary Medicine'),
+        ('radiology', 'Radiology'),
+        ('rheumatology', 'Rheumatology'),
+        ('transplantation', 'Transplantation'),
+        ('urology', 'Urology'),
     )
     STATUS_TYPES = (
         ('new', 'New'),

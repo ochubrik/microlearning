@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
-{%  block content %}
-{% if user.is_authenticated %}
+{% block content %}
     <h1>My Articles</h1>
     {% for article in articles %}
         <h2 class="text-info">
@@ -17,8 +16,4 @@
             {{article.body|truncatewords:30|linebreaks}}
         </p>
     {% endfor %}
-{% else %}
-    <p>Please login to see this page.</p>
-    <a href="{% url 'login'%}?next={{request.path}}">Login</a>
-{% endif %}
 {%  endblock %}

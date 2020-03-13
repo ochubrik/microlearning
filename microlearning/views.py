@@ -1,40 +1,43 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from . import models, forms
-from .models import Article
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
-from django.contrib.auth import authenticate, login
-from django.http import HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from registration import forms
+from . import models, forms
+from .models import Article
+from microlearning import scraper
 
-
-# from . import forms
-
-# articles_num = Article.objects.all().count()
 @login_required
 def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
+    if request.user.profile.subscribed_category:
+        from_med = scraper.MedscapeScraper().get_articles_by_slug(request.user.profile.subscribed_category)
+    else:
+        from_med = []
+
     return render(request, 'article/index.html',
-                  {'articles': available_article_list})
+                  {
+                      'articles': available_article_list,
+                      'articles_from_med': from_med
+                  })
 
 
+@login_required
 class ArticleListView(LoginRequiredMixin, ListView):
     queryset = models.Article.objects.all()
     context_object_name = 'articles'
     template_name = 'article/list.html'
 
 
+@login_required
 def article_list(request):
     return render(request, 'article/list.html', {
         'articles': Article.objects.all()})
 
 
-# @login_required
+@login_required
 def article_details(request, year, month, day, slug):
     article = get_object_or_404(models.Article,
                                 slug=slug,
@@ -100,5 +103,5 @@ def edit(request):
         # profile_form = forms.ProfileEditForm(instance=request.user.profile)
     return render(request,
                   'edit.html',
-                  {'user_form': user_form,})
-                   # 'profile_form': profile_form})
+                  {'user_form': user_form, })
+    # 'profile_form': profile_form})
