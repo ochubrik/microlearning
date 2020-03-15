@@ -1,10 +1,12 @@
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.conf import settings
+from django.utils.text import slugify
 
 
 class Profile(models.Model):
@@ -40,7 +42,6 @@ class PublishedManager(models.Manager):
 
 
 class Article(models.Model):
-
     ARTICLE_TYPES = (
         ('allergy-immunology', 'Allergy & Clinical Immunology'),
         ('anesthesiology', 'Anesthesiology'),
@@ -78,26 +79,34 @@ class Article(models.Model):
         ('new', 'New'),
         ('finished', 'Finished'),
     )
+
+    id_med = models.IntegerField()
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250,
-                            unique_for_date='publish')
+    slug = models.SlugField(max_length=250)
     body = models.TextField()
     publish = models.DateTimeField(default=timezone.now)
     type = models.CharField(max_length=50,
-                            choices=ARTICLE_TYPES,
-                            default='theory')
+                            choices=ARTICLE_TYPES)
     status = models.CharField(max_length=20,
                               choices=STATUS_TYPES,
                               default='new')
     author = models.CharField(max_length=250)
+
     objects = models.Manager()
     published = PublishedManager()
 
-    # def __str__(self):
-    #     return self.title
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['type', 'id_med'], name='unique_article'),
+        ]
+
     def get_absolute_url(self):
         return reverse('microlearning:article_details',
-                       args=[self.publish.year,
-                             self.publish.month,
-                             self.publish.day,
+                       args=[self.type,
+                             self.id_med,
                              self.slug])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title, allow_unicode=True)
+
+        super().save(*args, **kwargs)

@@ -20,18 +20,4 @@
             {{article.body|truncatewords:30|linebreaks}}
         </p>
     {% endfor %}
-
-    <h3>From medscape:</h3>
-    {% for article in articles_from_med %}
-        <h2 class="text-info">
-            <a href="{% url "microlearning:article_details_med" %}?url={{article.url}}">{{ article.title }} </a>
-        </h2>
-        <h5>
-            Published by {{ article.author }}
-        </h5>
-        <h5>
-            {{ article.teaser }}
-        </h5>
-    {% endfor %}
-
 {% endblock %}

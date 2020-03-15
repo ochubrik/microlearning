@@ -12,25 +12,9 @@ from microlearning import scraper
 def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
-    if request.user.profile.subscribed_category:
-        from_med = scraper.MedscapeScraper().get_articles_by_category(request.user.profile.subscribed_category)
-    else:
-        from_med = []
-
     return render(request, 'article/index.html',
                   {
-                      'articles': available_article_list,
-                      'articles_from_med': from_med
-                  })
-
-@login_required
-def article_details_med(request):
-    url = request.GET['url']
-    article = scraper.MedscapeScraper().get_article_by_url(url)
-
-    return render(request, 'article/detail_med.html',
-                  {
-                      'article': article,
+                      'articles': available_article_list
                   })
 
 @login_required
@@ -47,13 +31,13 @@ def article_list(request):
 
 
 @login_required
-def article_details(request, year, month, day, slug):
+def article_details(request, type: str, id_med: int, slug: str):
     article = get_object_or_404(models.Article,
-                                slug=slug,
                                 status="new",
-                                publish__year=year,
-                                publish__month=month,
-                                publish__day=day)
+                                type=type,
+                                id_med=id_med,
+                                slug=slug)
+
     return render(request,
                   'article/detail.html',
                   {'article': article})

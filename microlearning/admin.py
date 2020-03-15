@@ -15,6 +15,9 @@ class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ('publish', 'status')
 
+    def has_add_permission(self, request):
+        return False
+
 
 @admin.register(models.Profile)
 class ProfileAdmin(admin.ModelAdmin):
