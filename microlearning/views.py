@@ -98,3 +98,8 @@ def edit(request):
                   'edit.html',
                   {'user_form': user_form, })
     # 'profile_form': profile_form})
+
+
+@login_required
+def view_profile(request):
+    return render(request, 'profile.html', {'user': request.user})

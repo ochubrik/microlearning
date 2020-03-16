@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'microlearning.apps.MicrolearningConfig',
     'registration.apps.RegistrationConfig',
+    'django_crontab',
     'grappelli',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -129,3 +130,7 @@ LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CRONJOBS = [
+    ('0 9,15,21 * * *', 'microlearning.management.commands.parse_articles.handle')
+]

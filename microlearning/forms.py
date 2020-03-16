@@ -1,5 +1,6 @@
 from django import forms
 
+from microlearning import models
 from microlearning.models import Article
 from django.contrib.auth.models import User
 
@@ -7,7 +8,7 @@ from django.contrib.auth.models import User
 class UserSettingsForm(forms.Form):
     category = forms.ChoiceField(
         required=False,
-        widget=forms.Select, #CheckboxSelectMultiple,
+        widget=forms.Select,  # CheckboxSelectMultiple,
         choices=Article.ARTICLE_TYPES,
     )
 
@@ -33,4 +34,10 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = models.Profile
+        fields = ('subscribed_category',)
 
