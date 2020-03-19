@@ -24,4 +24,6 @@ urlpatterns = [
     path('', RedirectView.as_view(url='/microlearning', permanent=True)),
     path('accounts/', include('registration.urls', namespace='registration')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('subscribe/', include('subscribe.urls')),
+
 ]

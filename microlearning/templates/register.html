@@ -1,11 +1,15 @@
 {% extends "baseregistration.html" %}
-{% block title %}create {% endblock %}
+{% block title %}Create your account{% endblock %}
 {% block content %}
-<p> create account: </p>
+{% if user.is_authenticated %}
+    <p>You already have an account!</p>
+{% else %}
+    <p> Create your account: </p>
 
-<form action="." method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-<p><input type="submit" value="create"></p>
-</form>
+    <form action="." method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+    <p><input type="submit" value="Create" class="btn btn-outline-primary"></p>
+    </form>
+{% endif %}
 {% endblock %}

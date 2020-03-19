@@ -20,7 +20,7 @@ class UserSettingsForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Pass',
                                widget=forms.PasswordInput)
-    password2 = forms.CharField(label='repeat',
+    password2 = forms.CharField(label='Repeat',
                                 widget=forms.PasswordInput)
 
     class Meta:
@@ -32,6 +32,7 @@ class UserRegistrationForm(forms.ModelForm):
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('bad pass')
         return cd['password2']
+
 
 class UserEditForm(forms.ModelForm):
     class Meta:

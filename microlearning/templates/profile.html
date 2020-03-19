@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}profile screen {% endblock %}
+
+{% block title %}Profile screen {% endblock %}
+
 {% block content %}
-<p>name: {{ user.first_name|add:user.last_name }}</p>
-<p>subsribed category: {{ user.profile.subscribed_category }}</p>
+<p class="font-weight-bold">User name: {{ user.get_username }}</p>
+<p>Subsribed category: {{ user.profile.get_subscribed_category_display }}</p>
+<p>Subsribed category: {{ user.email}}</p>
 {% endblock %}

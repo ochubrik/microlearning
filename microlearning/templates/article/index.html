@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
+{% block title %}Home page {% endblock %}
 {% block content %}
     <h1>Home</h1>
-    <p>Welcome to <em>Microlearning</em>.</p>
-    <h2>Dynamic content</h2>
+    <p>Welcome to <em>Microlearning</em>, {{ user.get_username }}!</p>
+    <h2>Articles for you</h2>
 
-    <h3>From Database:</h3>
     {% for article in articles %}
         <h2 class="text-info">
             <a href="{{article.get_absolute_url}}">{{article.title}} </a>
@@ -14,7 +14,7 @@
             Published {{article.publish}} by {{article.author}}
         </h5>
         <h5>
-            {{article.type}}
+            {{article.get_type_display}}
         </h5>
         <p>
             {{article.body|truncatewords:30|linebreaks}}

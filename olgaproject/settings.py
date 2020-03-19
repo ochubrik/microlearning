@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'microlearning.apps.MicrolearningConfig',
     'registration.apps.RegistrationConfig',
+    'subscribe.apps.SubscribeConfig',
     'django_crontab',
     'grappelli',
     'django.contrib.admin',
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap4',
 
 ]
 
@@ -129,8 +131,17 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRONJOBS = [
     ('0 9,15,21 * * *', 'microlearning.management.commands.parse_articles.handle')
 ]
+
+#DataFlair
+EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+# EMAIL_HOST_USER =
+# EMAIL_HOST_PASSWORD =
+EMAIL_USE_SSL = False

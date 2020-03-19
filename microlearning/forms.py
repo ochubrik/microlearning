@@ -16,7 +16,7 @@ class UserSettingsForm(forms.Form):
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Pass',
                                widget=forms.PasswordInput)
-    password2 = forms.CharField(label='repeat',
+    password2 = forms.CharField(label='Repeat',
                                 widget=forms.PasswordInput)
 
     class Meta:
@@ -40,4 +40,3 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = models.Profile
         fields = ('subscribed_category',)
-

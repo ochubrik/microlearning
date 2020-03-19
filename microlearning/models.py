@@ -9,33 +9,6 @@ from django.conf import settings
 from django.utils.text import slugify
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    subscribed_category = models.CharField(max_length=50, blank=True)
-
-    objects = models.Manager()
-
-    def get_my_articles(self):
-        if self.subscribed_category:
-            return Article.objects.filter(type=self.subscribed_category)
-
-        return []
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    if not hasattr(instance, 'profile'):
-        Profile.objects.create(user=instance)
-
-    instance.profile.save()
-
-
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(type='familymedicine', publish__year=2020)
@@ -110,3 +83,30 @@ class Article(models.Model):
         self.slug = slugify(self.title, allow_unicode=True)
 
         super().save(*args, **kwargs)
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    subscribed_category = models.CharField(max_length=50, blank=True, choices=Article.ARTICLE_TYPES)
+
+    objects = models.Manager()
+
+    def get_my_articles(self):
+        if self.subscribed_category:
+            return Article.objects.filter(type=self.subscribed_category)
+
+        return []
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    if not hasattr(instance, 'profile'):
+        Profile.objects.create(user=instance)
+
+    instance.profile.save()

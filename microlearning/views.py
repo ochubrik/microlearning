@@ -1,21 +1,32 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import QuerySet
+from django.db.models.query import RawQuerySet
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView
 
 from registration import forms
 from . import models, forms
-from .models import Article
+from .models import Article, Profile
 from microlearning import scraper
+
+from django.shortcuts import render
+# from olgaproject.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 
 @login_required
 def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
+
+    # print(category_users)
+
     return render(request, 'article/index.html',
                   {
                       'articles': available_article_list
                   })
+
 
 @login_required
 class ArticleListView(LoginRequiredMixin, ListView):
@@ -103,3 +114,4 @@ def edit(request):
 @login_required
 def view_profile(request):
     return render(request, 'profile.html', {'user': request.user})
+
