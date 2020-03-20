@@ -19,8 +19,22 @@ from django.core.mail import send_mail
 def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
+    # q = Profile.objects.all().query
+    # q.group_by = ['subscribed_category',]
+    # result = [(profile.subscribed_category, profile.user.email) for profile in QuerySet(query=q, model=Profile) if profile.subscribed_category]
+    # print(result)
 
+    # category_users = {}
+    # for profile in Profile.objects.all():
+    #     if profile.subscribed_category:
+    #         category_users.setdefault(profile.subscribed_category, []).append(profile.user.email)
+    #
     # print(category_users)
+    #
+    # for subscribed_category in category_users:  # список емаилов???
+    #     recepient = category_users[subscribed_category]
+    #
+    # print(recepient)
 
     return render(request, 'article/index.html',
                   {
@@ -114,4 +128,3 @@ def edit(request):
 @login_required
 def view_profile(request):
     return render(request, 'profile.html', {'user': request.user})
-
