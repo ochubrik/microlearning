@@ -134,7 +134,8 @@ SITE_URL = 'http://127.0.0.1:8000'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRONJOBS = [
-    ('0 9,15,21 * * *', 'microlearning.management.commands.parse_articles.handle')
+    ('0 * * * *', 'django.core.management.call_command', ['parse_articles']),
+    ('10 9,15,21 * * *','django.core.management.call_command', ['email_sender']),
 ]
 
 #DataFlair
