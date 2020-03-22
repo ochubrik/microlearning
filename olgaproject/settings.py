@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'microlearning.apps.MicrolearningConfig',
-    'registration.apps.RegistrationConfig',
     'django_crontab',
     'grappelli',
     'django.contrib.admin',
@@ -143,6 +142,6 @@ EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'o.chubrick@gmail.com'
+EMAIL_HOST_PASSWORD = '108108dimon'
 EMAIL_USE_SSL = False

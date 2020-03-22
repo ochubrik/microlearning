@@ -1,14 +1,18 @@
 from django import forms
-
 from microlearning import models
 from microlearning.models import Article
 from django.contrib.auth.models import User
 
 
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
+
+
 class UserSettingsForm(forms.Form):
     category = forms.ChoiceField(
         required=False,
-        widget=forms.Select,  # CheckboxSelectMultiple,
+        widget=forms.Select,
         choices=Article.ARTICLE_TYPES,
     )
 
