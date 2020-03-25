@@ -1,14 +1,23 @@
-{%  extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}{{article.title}}{% endblock %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+
+    <li class="breadcrumb-item"><a href="{% url 'microlearning:article_list' %}">All Articles</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{article.title}}</li>
+{% endblock %}
+
 {% block content %}
-    <a href="{% url "microlearning:article_list" %}">All articles</a>
-    <h1 class="text-info">{{article.title}}</h1>
-    <p>
-        Published {{article.publish}} by {{article.author}}
-    </p>
-    <p>
-        {{article.body|linebreaks}}
-    </p>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <span class="badge badge-primary">{{article.get_type_display}}</span>
+                <a class="text-primary" href="{{article.get_absolute_url}}">{{article.title}}</a>
+            </h5>
+            <p class="card-text"><small class="text-muted">{{article.publish}} by {{article.author}}</small></p>
+            <p class="card-text">{{article.body|linebreaks}}</p>
+        </div>
+    </div>
 {% endblock %}

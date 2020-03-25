@@ -4,8 +4,11 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from . import models, forms
 from .models import Article
-
+from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.views.generic import ListView
+
+
 
 
 @login_required
@@ -24,11 +27,19 @@ class ArticleListView(LoginRequiredMixin, ListView):
     context_object_name = 'articles'
     template_name = 'article/list.html'
 
-
 @login_required
 def article_list(request):
+    context = {}
+
+    article_list = Article.objects.all().order_by('-publish')
+    paginator = Paginator(article_list, 15)
+
+    page_number = request.GET.get('page', 1)
+    articles = paginator.get_page(page_number)
+
     return render(request, 'article/list.html', {
-        'articles': Article.objects.all()})
+        'articles': articles
+    })
 
 
 @login_required

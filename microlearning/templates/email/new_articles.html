@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>Articles</title>
 </head>
 
@@ -10,7 +11,7 @@
         {% for article in articles %}
             <li>
                 <a href="{{article.get_absolute_url}}">{{article.title}} </a>
-                <p>{{article.body|truncatewords:30|linebreaks}}</p>
+                <p>{{article.body|truncatewords:15|linebreaks}}</p>
             </li>
         {% endfor %}
     </ul>

@@ -1,23 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}Home page {% endblock %}
+
 {% block content %}
-    <h1>Home</h1>
-    <p class="lead">Welcome to <em>Microlearning</em>, {{ user.get_username }}!</p>
     <h2>Articles for you</h2>
 
+    <div class="card-columns">
     {% for article in articles %}
-        <h2 class="text-info">
-            <a class="text-primary" href="{{article.get_absolute_url}}">{{article.title}} </a>
-        </h2>
-        <h5>
-            Published {{article.publish}} by {{article.author}}
-        </h5>
-        <h5 class="text-info">
-            {{article.get_type_display}}
-        </h5>
-        <p>
-            {{article.body|truncatewords:30|linebreaks}}
-        </p>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span class="badge badge-primary">{{article.get_type_display}}</span>
+                    <a class="text-primary" href="{{article.get_absolute_url}}">{{article.title}}</a>
+                </h5>
+                <p class="card-text">{{article.body|truncatewords:30|linebreaks}}</p>
+                <p class="card-text"><small class="text-muted">{{article.publish}} by {{article.author}}</small></p>
+            </div>
+        </div>
     {% endfor %}
+    </div>
 {% endblock %}

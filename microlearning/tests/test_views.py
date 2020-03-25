@@ -1,21 +1,19 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+
 from microlearning.models import Article
 
 
 class TestViews(TestCase):
 
     def setUp(self):
-        User = get_user_model()
-        self.user = User.objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
-        self.user.save()
+        self.user = get_user_model().objects.create_user('temporary', 'temporary@gmail.com', 'temporary')
 
         self.article = Article.objects.create(title="Some title",
                                               status="new",
                                               type="some_str",
                                               id_med=9)
-        self.article.save()
 
     def test_login_required_page(self):
         article_index_url = reverse('microlearning:article_index')

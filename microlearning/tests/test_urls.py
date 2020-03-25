@@ -1,5 +1,6 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
+
 from microlearning.views import article_details, article_index, article_list, settings, register, edit, view_profile
 
 

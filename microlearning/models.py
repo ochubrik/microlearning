@@ -8,11 +8,6 @@ from django.conf import settings
 from django.utils.text import slugify
 
 
-class PublishedManager(models.Manager):
-    def get_queryset(self):
-        return super(PublishedManager, self).get_queryset().filter(type='familymedicine', publish__year=2020)
-
-
 class Article(models.Model):
     ARTICLE_TYPES = (
         ('allergy-immunology', 'Allergy & Clinical Immunology'),
@@ -65,7 +60,7 @@ class Article(models.Model):
     author = models.CharField(max_length=250)
 
     objects = models.Manager()
-    published = PublishedManager()
+
 
     class Meta:
         constraints = [
@@ -79,7 +74,7 @@ class Article(models.Model):
                              self.slug])
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
+        self.slug = slugify(self.title, allow_unicode=False)
 
         super().save(*args, **kwargs)
 
