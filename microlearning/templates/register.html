@@ -1,25 +1,21 @@
 {% extends "baseregistration.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}Create your account{% endblock %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <h1 class="h3 mb-3 font-weight-normal">You already have an account!</h1>
-    {% else %}
-        <h1 class="h3 mb-3 font-weight-normal"> Create your account: </h1>
-
-        <form action="." method="post">
-            {% csrf_token %}
-            {% for field in form %}
-                <p>
-                {{ field.label_tag }}<br>
-                {{ field }}
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
-                </p>
-            {% endfor %}
-            <p><input type="submit" value="Create" class="btn btn-outline-primary"></p>
-        </form>
-    {% endif %}
+    <div class="row">
+        <div class="col-lg-4 offset-lg-3">
+            {% if user.is_authenticated %}
+                <h1 class="h3 mb-3 font-weight-normal">You already have an account!</h1>
+            {% else %}
+                <h1 class="h3 mb-3 font-weight-normal"> Create your account: </h1>
+                <form action="." method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-outline-primary">Create</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

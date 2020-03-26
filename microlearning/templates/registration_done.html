@@ -3,6 +3,6 @@
 {% block title %}created {% endblock %}
 
 {% block content %}
-    <p>Hello: {{ new_user.first_name }} </p>
+    <p>Hello, {{ new_user.username }}! </p>
     Now you can <a href="{% url "login" %}"> login </a>
 {% endblock %}

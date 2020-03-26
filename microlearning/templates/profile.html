@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+
+    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+{% endblock %}
+
 {% block title %}Profile screen {% endblock %}
 
 {% block content %}
-<p class="font-weight-bold">User name: {{ user.get_username }}</p>
-<p>Subsribed category: {{ user.profile.get_subscribed_category_display }}</p>
+    <p class="font-weight-bold">User name: {{ user.get_username }}</p>
+    <p>Subsribed category: {{ user.profile.get_subscribed_category_display }}</p>
+    <p>First name: {{ user.first_name}}</p>
+    <p>Email: {{ user.email}}</p>
 {% endblock %}

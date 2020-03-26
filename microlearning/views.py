@@ -1,4 +1,6 @@
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
@@ -7,8 +9,6 @@ from .models import Article
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views.generic import ListView
-
-
 
 
 @login_required
@@ -20,12 +20,6 @@ def article_index(request):
                       'articles': available_article_list
                   })
 
-
-@login_required
-class ArticleListView(LoginRequiredMixin, ListView):
-    queryset = models.Article.objects.all()
-    context_object_name = 'articles'
-    template_name = 'article/list.html'
 
 @login_required
 def article_list(request):
@@ -97,14 +91,33 @@ def edit(request):
     if request.method == 'POST':
         user_form = forms.UserEditForm(instance=request.user,
                                        data=request.POST)
-        user_form.save()
+        if user_form.is_valid():
+            user_form.save()
+            update_session_auth_hash(request, user_form.user)
 
-        return redirect('microlearning:edit')
+            return redirect('microlearning:edit')
     else:
         user_form = forms.UserEditForm(instance=request.user)
 
     return render(request, 'edit.html', {
         'user_form': user_form,
+    })
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+
+            return redirect('microlearning:change_password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+    return render(request, 'change_password.html', {
+        'form': form,
     })
 
 

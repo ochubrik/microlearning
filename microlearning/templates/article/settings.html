@@ -1,5 +1,11 @@
 {% extends "base.html" %}
 
+{% block breadcrumb %}
+    {{ block.super }}
+
+    <li class="breadcrumb-item active" aria-current="page">Settings</li>
+{% endblock %}
+
 {% block title %}Settings{% endblock %}
 
 {% block content %}

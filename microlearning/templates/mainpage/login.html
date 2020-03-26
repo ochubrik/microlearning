@@ -1,26 +1,36 @@
 {% extends "baseregistration.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-{% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+    <div class="row">
+        <div class="col-lg-4 offset-lg-3">
+            {% if form.errors %}
+                <p>Your username and password didn't match. Please try again.</p>
+            {% endif %}
 
-{% if next %}
-  {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-  {% else %}
-    <h1 class="h3 mb-3 font-weight-normal">Please login to see this page.</h1>
-  {% endif %}
-{% endif %}
+            {% if next %}
+                {% if user.is_authenticated %}
+                    <p>Your account doesn't have access to this page. To proceed,
+                        please login with an account that has access.</p>
+                {% else %}
+                    <h1 class="h3 mb-3 font-weight-normal">Please login to see this page.</h1>
+                {% endif %}
+            {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-  {{ form.as_p}}
-  {% csrf_token %}
-  <input type="submit" value="login" class="btn btn-outline-primary"/>
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
-
-<p><a href="{% url 'password_reset' %}" >Lost password?</a></p>
-<p><a href="{% url 'microlearning:register' %}">Need to register?</a></p>
+            <form method="post" action="{% url 'login' %}">
+                {{ form|crispy }}
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}"/>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <button type="submit" class="btn btn-outline-primary">Login</button>
+                    </div>
+                    <div class="col-lg-9 text-right">
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'password_reset' %}">Lost password?</a>
+                        <a class="btn btn-sm btn-outline-primary"  href="{% url 'microlearning:register' %}">Need to register?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

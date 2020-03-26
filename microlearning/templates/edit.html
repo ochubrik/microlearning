@@ -1,10 +1,22 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumb %}
+    {{ block.super }}
+
+    <li class="breadcrumb-item active" aria-current="page">Edit profile</li>
+{% endblock %}
+
 {% block title %}Edit profile {% endblock %}
 {% block content %}
-<form action="." method="post" enctype="multipart/form-data">
-    {{ user_form.as_p }}
-    {{ profile_form.as_p }}
-    {% csrf_token %}
-<p><input type="submit" value="Save changes" class="btn btn-outline-primary"></p>
-</form>
+    <div class="row">
+        <div class="col-lg-4">
+            <form action="." method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ profile_form|crispy }}
+                {{ user_form|crispy }}
+            <button type="submit" class="btn btn-outline-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
