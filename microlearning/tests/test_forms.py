@@ -20,27 +20,30 @@ class TestForms(SimpleTestCase):
         })
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 1)
-        self.assertEquals(form.errors['password'][0], 'This field is required.')
+        self.assertEqual(len(form.errors), 1)
+        self.assertEqual(form.errors['password'][0], 'This field is required.')
 
     def test_LoginForm_no_data(self):
         form = LoginForm(data={})
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
-        self.assertEquals(form.errors['username'][0], 'This field is required.')
-        self.assertEquals(form.errors['password'][0], 'This field is required.')
+        self.assertEqual(len(form.errors), 2)
+        self.assertEqual(form.errors['username'][0], 'This field is required.')
+        self.assertEqual(form.errors['password'][0], 'This field is required.')
 
     def test_UserSettingsForm(self):
         form = UserSettingsForm(data={'category': 'pediatrics'})
+
         self.assertTrue(form.is_valid())
 
     def test_UserSettingsForm_no_data(self):
         form = UserSettingsForm(data={'category': ''})
+
         self.assertTrue(form.is_valid())
 
     def test_UserSettingsForm_bad_data(self):
         form = UserSettingsForm(data={'category': 'Pediatrics'})
+
         self.assertFalse(form.is_valid())
 
     def test_UserEditForm(self):
@@ -58,22 +61,25 @@ class TestForms(SimpleTestCase):
                                   })
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 1)
-        self.assertEquals(form.errors['email'][0], 'Enter a valid email address.')
+        self.assertEqual(len(form.errors), 1)
+        self.assertEqual(form.errors['email'][0], 'Enter a valid email address.')
 
     def test_ProfileEditForm(self):
         form = ProfileEditForm(data={'subscribed_category': 'pediatrics'})
+
         self.assertTrue(form.is_valid())
 
     def test_ProfileEditForm_no_data(self):
         form = ProfileEditForm(data={'subscribed_category': ''})
+
         self.assertTrue(form.is_valid())
 
     def test_ProfileEditForm_bad_data(self):
         form = ProfileEditForm(data={'subscribed_category': 'str'})
+
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 1)
-        self.assertEquals(form.errors['subscribed_category'][0], 'Select a valid choice. str is not one of the available choices.')
+        self.assertEqual(len(form.errors), 1)
+        self.assertEqual(form.errors['subscribed_category'][0], 'Select a valid choice. str is not one of the available choices.')
 
 
 class TestUserRegistrationForm(TestCase):
@@ -99,7 +105,7 @@ class TestUserRegistrationForm(TestCase):
         })
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors['password2'][0], 'bad pass')
+        self.assertEqual(form.errors['password2'][0], 'bad pass')
 
     def test_UserRegistrationForm_bad_data(self):
         form = UserRegistrationForm(data={
@@ -111,10 +117,10 @@ class TestUserRegistrationForm(TestCase):
         })
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 3)
-        self.assertEquals(form.errors['username'][0], 'This field is required.')
-        self.assertEquals(form.errors['email'][0], 'Enter a valid email address.')
-        self.assertEquals(form.errors['password2'][0], 'bad pass')
+        self.assertEqual(len(form.errors), 3)
+        self.assertEqual(form.errors['username'][0], 'This field is required.')
+        self.assertEqual(form.errors['email'][0], 'Enter a valid email address.')
+        self.assertEqual(form.errors['password2'][0], 'bad pass')
 
     def test_UserRegistrationForm_bad_data_empty(self):
         form = UserRegistrationForm(data={
@@ -126,6 +132,6 @@ class TestUserRegistrationForm(TestCase):
         })
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(form.errors['password'][0], 'This field is required.')
-        self.assertEquals(form.errors['password2'][0], 'This field is required.')
-        self.assertEquals(form.errors['username'][0], 'This field is required.')
+        self.assertEqual(form.errors['password'][0], 'This field is required.')
+        self.assertEqual(form.errors['password2'][0], 'This field is required.')
+        self.assertEqual(form.errors['username'][0], 'This field is required.')

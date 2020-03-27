@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 app_name = 'microlearning'
@@ -12,4 +12,5 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
     path('profile/', views.view_profile, name='profile'),
+    path('password/', views.change_password, name='change_password'),
 ]

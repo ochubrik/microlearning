@@ -1,7 +1,8 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
 
-from microlearning.views import article_details, article_index, article_list, settings, register, edit, view_profile
+from microlearning.views import article_details, article_index,\
+    article_list, settings, register, edit, view_profile, change_password
 
 
 class TestUrls(SimpleTestCase):
@@ -34,3 +35,6 @@ class TestUrls(SimpleTestCase):
         url = reverse('microlearning:profile')
         self.assertEqual(resolve(url).func, view_profile)
 
+    def test_password(self):
+        url = reverse('microlearning:change_password')
+        self.assertEqual(resolve(url).func, change_password)

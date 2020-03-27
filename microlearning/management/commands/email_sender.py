@@ -3,6 +3,7 @@ from django.core.management import BaseCommand
 from django.template.loader import render_to_string
 from django.urls import set_script_prefix, clear_script_prefix
 from django.utils import timezone
+
 from microlearning.models import Profile, Article
 from olgaproject.settings import EMAIL_HOST_USER, SITE_URL
 

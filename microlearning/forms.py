@@ -1,7 +1,8 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from microlearning import models
 from microlearning.models import Article
-from django.contrib.auth.models import User
 
 
 class LoginForm(forms.Form):

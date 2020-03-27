@@ -14,10 +14,10 @@ class TestArticle(TestCase):
         )
 
     def test_article_is_assigned_slug(self):
-        self.assertEquals(self.article_first.slug, 'some-title')
+        self.assertEqual(self.article_first.slug, 'some-title')
 
     def test_get_absolute_url(self):
-        self.assertEquals('/microlearning/some_str/1-some-title', self.article_first.get_absolute_url())
+        self.assertEqual('/microlearning/some_str/1-some-title', self.article_first.get_absolute_url())
 
 
 class TestProfile(TestCase):
@@ -34,11 +34,11 @@ class TestProfile(TestCase):
         self.profile = self.user.profile
         self.profile.subscribed_category = 'neurology'
 
-        self.assertEquals(list(self.profile.get_my_articles()), [])
+        self.assertEqual(list(self.profile.get_my_articles()), [])
 
     def test_get_my_articles_list(self):
         self.profile = self.user.profile
         self.profile.subscribed_category = 'pediatrics'
 
-        self.assertEquals(self.profile.subscribed_category, 'pediatrics')
-        self.assertEquals(list(self.profile.get_my_articles()), [self.article])
+        self.assertEqual(self.profile.subscribed_category, 'pediatrics')
+        self.assertEqual(list(self.profile.get_my_articles()), [self.article])

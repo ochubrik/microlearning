@@ -26,7 +26,7 @@ class TestViews(TestCase):
 
         response = self.client.get(reverse('microlearning:article_index'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'article/index.html')
 
     def test_article_list_GET(self):
@@ -34,7 +34,7 @@ class TestViews(TestCase):
 
         response = self.client.get(reverse('microlearning:article_list'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'article/list.html')
 
     def test_article_details_GET(self):
@@ -42,30 +42,30 @@ class TestViews(TestCase):
 
         response = self.client.get(self.article.get_absolute_url())
 
-        self.assertEquals(
+        self.assertEqual(
             reverse('microlearning:article_details', args=['some_str', 9, 'some-title']),
             self.article.get_absolute_url()
         )
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'article/detail.html')
 
     def test_settings_POST(self):
         self.client.force_login(self.user)
 
-        self.assertEquals(self.user.profile.subscribed_category, '')
+        self.assertEqual(self.user.profile.subscribed_category, '')
 
         response = self.client.post(reverse('microlearning:settings'), {'category': 'familymedicine'})
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
 
         self.user.refresh_from_db()
-        self.assertEquals(self.user.profile.subscribed_category, 'familymedicine')
+        self.assertEqual(self.user.profile.subscribed_category, 'familymedicine')
 
     def test_settings_GET(self):
         self.client.force_login(self.user)
 
         response = self.client.get(reverse('microlearning:settings'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'article/settings.html')
 
     def test_register_POST(self):
@@ -77,13 +77,13 @@ class TestViews(TestCase):
             'password2': 'test_password'
         })
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'registration_done.html')
 
     def test_register_POST_no_data(self):
         response = self.client.post(reverse('microlearning:register'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
         self.assertFormError(response, 'form', 'username', ["This field is required."])
         self.assertFormError(response, 'form', 'password', ["This field is required."])
@@ -93,35 +93,32 @@ class TestViews(TestCase):
 
         response = self.client.get(reverse('microlearning:register'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
 
     def test_edit_POST(self):
         self.client.force_login(self.user)
 
-        self.assertEquals(self.user.first_name, '')
-        self.assertEquals(self.user.last_name, '')
-        self.assertEquals(self.user.email, 'temporary@gmail.com')
+        self.assertEqual(self.user.first_name, '')
+        self.assertEqual(self.user.email, 'temporary@gmail.com')
 
         response = self.client.post(reverse('microlearning:edit'), {
             'first_name': 'test_user',
-            'last_name': 'test_user',
             'email': 'user@test.com'
         })
 
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
 
         self.user.refresh_from_db()
-        self.assertEquals(self.user.first_name, 'test_user')
-        self.assertEquals(self.user.last_name, 'test_user')
-        self.assertEquals(self.user.email, 'user@test.com')
+        self.assertEqual(self.user.first_name, 'test_user')
+        self.assertEqual(self.user.email, 'user@test.com')
 
     def test_edit_GET(self):
         self.client.force_login(self.user)
 
         response = self.client.get(reverse('microlearning:edit'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'edit.html')
 
     def test_view_profile_GET(self):
@@ -129,5 +126,47 @@ class TestViews(TestCase):
 
         response = self.client.get(reverse('microlearning:profile'))
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'profile.html')
+
+    def test_change_password_GET(self):
+        self.client.force_login(self.user)
+
+        response = self.client.get(reverse('microlearning:change_password'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'change_password.html')
+
+    def test_change_password_POST(self):
+        self.client.force_login(self.user)
+
+        self.assertEqual(self.user.check_password('temporary'), True)
+
+        response = self.client.post(reverse('microlearning:change_password'), {
+            'old_password': 'temporary',
+            'new_password1': 'new_pass',
+            'new_password2': 'new_pass'
+        })
+
+        self.assertEqual(response.status_code, 302)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.check_password('temporary'), False)
+        self.assertEqual(self.user.check_password('new_pass'), True)
+
+    def test_change_password_POST_wrong_credentials(self):
+        self.client.force_login(self.user)
+
+        self.assertEqual(self.user.check_password('temporary'), True)
+
+        response = self.client.post(reverse('microlearning:change_password'), {
+            'old_password': 'temporary',
+            'new_password1': 'new_pass',
+            'new_password2': 'new_pass2'
+        })
+
+        self.assertEqual(response.status_code, 200)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.check_password('new_pass'), False)
+        self.assertFormError(response, 'form', 'new_password2', ["The two password fields didn’t match."])

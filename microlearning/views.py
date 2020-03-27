@@ -1,14 +1,13 @@
+from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import ListView
+from django.shortcuts import render
+
 from . import models, forms
 from .models import Article
-from django.core.paginator import Paginator
-from django.shortcuts import render
-from django.views.generic import ListView
 
 
 @login_required
@@ -93,7 +92,7 @@ def edit(request):
                                        data=request.POST)
         if user_form.is_valid():
             user_form.save()
-            update_session_auth_hash(request, user_form.user)
+            messages.success(request, 'Your profile was successfully updated!')
 
             return redirect('microlearning:edit')
     else:
@@ -111,8 +110,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password was successfully updated!')
 
-            return redirect('microlearning:change_password')
+            return redirect('microlearning:edit')
     else:
         form = PasswordChangeForm(user=request.user)
 

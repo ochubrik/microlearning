@@ -132,14 +132,12 @@ LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout/'
 
 SITE_URL = 'http://127.0.0.1:8000'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CRONJOBS = [
     ('0 * * * *', 'django.core.management.call_command', ['parse_articles']),
     ('10 9,15,21 * * *','django.core.management.call_command', ['email_sender']),
 ]
 
-#DataFlair
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
