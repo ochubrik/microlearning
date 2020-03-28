@@ -14,8 +14,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         set_script_prefix(SITE_URL)
 
-        subject = 'OlgaProject: daily article subs!'
-
         category_users = {}
         for profile in Profile.objects.all():
             if profile.subscribed_category:
@@ -26,10 +24,14 @@ class Command(BaseCommand):
             articles = Article.objects.filter(type=subscribed_category, publish__date=timezone.now()).all()
 
             if len(articles):
+                subject = 'Microlearning: {} daily new articles'\
+                    .format(dict(Article.ARTICLE_TYPES).get(subscribed_category))
+
                 message = render_to_string('email/new_articles.html', {'articles': articles})
 
-                email = EmailMessage(subject=subject, body=message, from_email=EMAIL_HOST_USER, to=recipients)
-                email.content_subtype = 'html'
-                email.send()
+                for recipient in recipients:
+                    email = EmailMessage(subject=subject, body=message, from_email=EMAIL_HOST_USER, to=[recipient])
+                    email.content_subtype = 'html'
+                    email.send()
 
         clear_script_prefix()
