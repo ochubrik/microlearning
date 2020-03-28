@@ -61,7 +61,6 @@ class Article(models.Model):
 
     objects = models.Manager()
 
-
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['type', 'id_med'], name='unique_article'),

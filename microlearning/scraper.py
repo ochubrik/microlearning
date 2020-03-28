@@ -60,8 +60,8 @@ class MedscapeScraper(object):
                 'id_med': id_med,
                 'title': title,
                 'url': url,
-                'teaser': teaser,
                 'author': author,
+                'body': teaser,
             })
 
         return articles
@@ -93,9 +93,8 @@ def create_article(data: dict, category: str) -> Article:
     article = Article()
     article.id_med = data['id_med']
     article.title = data['title']
-    article.slug = slugify(article.title, allow_unicode=True)
-    if 'body' in data:
-        article.body = data['body']
+    article.slug = slugify(article.title, allow_unicode=False)
+    article.body = data['body']
     article.type = category
     article.author = data['author']
 

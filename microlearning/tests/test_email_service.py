@@ -27,5 +27,5 @@ class EmailTest(TestCase):
         call_command('email_sender')
 
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].subject, 'OlgaProject: daily article subs!')
+        self.assertEqual(mail.outbox[0].subject, 'Microlearning: Pediatrics daily new articles')
         self.assertEqual(mail.outbox[0].to, [self.user.email])

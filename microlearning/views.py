@@ -14,16 +14,13 @@ from .models import Article
 def article_index(request):
     available_article_list = request.user.profile.get_my_articles()
 
-    return render(request, 'article/index.html',
-                  {
-                      'articles': available_article_list
-                  })
+    return render(request, 'article/index.html', {
+        'articles': available_article_list,
+    })
 
 
 @login_required
 def article_list(request):
-    context = {}
-
     article_list = Article.objects.all().order_by('-publish')
     paginator = Paginator(article_list, 15)
 
@@ -31,7 +28,7 @@ def article_list(request):
     articles = paginator.get_page(page_number)
 
     return render(request, 'article/list.html', {
-        'articles': articles
+        'articles': articles,
     })
 
 
@@ -43,9 +40,9 @@ def article_details(request, type: str, id_med: int, slug: str):
                                 id_med=id_med,
                                 slug=slug)
 
-    return render(request,
-                  'article/detail.html',
-                  {'article': article})
+    return render(request, 'article/detail.html', {
+        'article': article,
+    })
 
 
 @login_required
@@ -58,13 +55,17 @@ def settings(request):
             request.user.profile.subscribed_category = form_data['category']
             request.user.save()
 
+            messages.success(request, 'Your settings were successfully updated!')
+
             return redirect('microlearning:settings')
     else:
         user_setting_form = forms.UserSettingsForm({
             'category': request.user.profile.subscribed_category,
         })
 
-    return render(request, 'article/settings.html', {'form': user_setting_form})
+    return render(request, 'article/settings.html', {
+        'form': user_setting_form,
+    })
 
 
 def register(request):
@@ -76,13 +77,15 @@ def register(request):
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
 
-            return render(request, 'registration_done.html', {'new_user': new_user})
+            return render(request, 'registration_done.html', {
+                'new_user': new_user,
+            })
     else:
         user_form = forms.UserRegistrationForm()
 
-    return render(request,
-                  'register.html',
-                  {'form': user_form})
+    return render(request, 'register.html', {
+        'form': user_form,
+    })
 
 
 @login_required
@@ -92,6 +95,7 @@ def edit(request):
                                        data=request.POST)
         if user_form.is_valid():
             user_form.save()
+
             messages.success(request, 'Your profile was successfully updated!')
 
             return redirect('microlearning:edit')
@@ -110,6 +114,7 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
+
             messages.success(request, 'Your password was successfully updated!')
 
             return redirect('microlearning:edit')
@@ -123,4 +128,6 @@ def change_password(request):
 
 @login_required
 def view_profile(request):
-    return render(request, 'profile.html', {'user': request.user})
+    return render(request, 'profile.html', {
+        'user': request.user,
+    })
